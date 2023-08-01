@@ -1,5 +1,3 @@
-// @ts-nocheck
-import { logToConsole } from '$lib/utils/utils.js';
 import { redirect } from '@sveltejs/kit';
 
 export default class RequestClientFE {
@@ -30,7 +28,7 @@ export default class RequestClientFE {
 
 	async performRequest() {
 		const requestConfig = this.buildFetchConfig();
-		logToConsole(`Sending data to svelte api ${this.url}`, requestConfig);
+		console.log(`Sending data to svelte api ${this.url}`, requestConfig);
 		let response;
 
 		// if we receive a fetch svelte function, we use it, otherwise standard fetch
@@ -41,12 +39,13 @@ export default class RequestClientFE {
 		}
 
 		const responseData = await response.json();
-		logToConsole('response from Backend in FEClient', {
+		console.log('response from Backend in FEClient', {
 			data: JSON.stringify(responseData),
 			status: response.status
 		});
+
 		if (response.status >= 400) {
-			logToConsole('Response error from BE client', responseData?.error);
+			console.log('Response error from BE client', responseData?.error);
 			switch (responseData?.error) {
 				case 1002:
 					if (this.redirectIfRequestFails) throw redirect(302, '/phone/configure');

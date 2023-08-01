@@ -1,4 +1,3 @@
-/* eslint-disable no-prototype-builtins */
 import { logToConsole } from '$lib/utils/utils.js';
 import * as Sentry from '@sentry/node';
 
@@ -58,7 +57,7 @@ export default class RequestClientBE {
 			TooManyRequests: true
 		};
 
-		return !errorsThatShouldNotBeLogged.hasOwnProperty(errorCode);
+		return !Object.hasOwnProperty.call(errorsThatShouldNotBeLogged, errorCode);
 	}
 
 	logErrorToSentry(error_code, status, responseData) {
